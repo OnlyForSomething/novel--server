@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.getnovel.user.dao.UserDao">
+    <resultMap id="userMap" type="com.getnovel.user.pojo.User" autoMapping="true">
+        <id column="user_id" property="userId" />
+        <result column="account" property="account"/>
+        <result column="password" property="password"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="userType" property="user_type"/>
+    </resultMap>
+    <insert id="add" parameterType="com.getnovel.user.pojo.User">
+            INSERT
+            INTO
+            user(account,password,phone,email,userType)
+            VALUES (#{account},#{password},#{phone},#{email},#{user_type});
+    </insert>
+    <select id="selectByAccount" resultType="int">
+             SELECT COUNT (*)
+             FROM
+             user
+             WHERE account = #{account}
+    </select>
+    <select id="selectByAccountAndPassword" resultType="com.getnovel.user.pojo.User" resultMap="userMap">
+           SELECT *
+           FROM
+           user
+           WHERE account =#{account}
+           AND   password =#{password}
+    </select>
+</mapper>

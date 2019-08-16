@@ -1,0 +1,19 @@
+server:
+  port: 8081
+  tomcat:
+    uri-encoding: UTF-8
+spring:
+#设置接口超时时间
+#  mvc:
+#    async:
+#      request-timeout: 10000ms
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/novel
+    username: root
+    password: root
+mybatis:
+# mapper.xml 路径
+  mapper-locations: classpath:/com/getnovel/*/mapper/*.xml
+#   对象实体路径
+  type-aliases-package: com.getnovel.*.*.pojo
