@@ -2,8 +2,8 @@ package com.getnovel.interceptor;
 
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
-import utils.JwtResult;
-import utils.JwtUtils;
+import com.getnovel.utils.JwtResult;
+import com.getnovel.utils.JwtUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

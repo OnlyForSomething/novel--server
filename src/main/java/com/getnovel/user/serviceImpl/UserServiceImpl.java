@@ -6,23 +6,23 @@ import com.getnovel.user.pojo.User;
 import com.getnovel.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import utils.JwtUtils;
+import com.getnovel.utils.JwtUtils;
 
 @Service("UserService")
 public class UserServiceImpl  implements UserService{
     @Autowired
     private UserDao dao;
+    @Override
     public void add(User user) {
           dao.add(user);
     }
-
     @Override
-    public String login(User user) {
+    public User selectByAccountAndPassword(User user){
         User u = dao.selectByAccountAndPassword(user.getAccount(),user.getPassword());
-        System.out.println(u);
-        if(u == null){
-            return "paswordErr";
-        }
+        return u;
+    }
+    @Override
+    public String login(User u) {
         String token = JwtUtils.generateToken(u);
         return token;
     }

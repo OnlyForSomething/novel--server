@@ -17,3 +17,13 @@ mybatis:
   mapper-locations: classpath:/com/getnovel/*/mapper/*.xml
 #   对象实体路径
   type-aliases-package: com.getnovel.*.*.pojo
+#AES加解密配置
+#加密密钥 AES_KEY AES-128加密方案 16位
+#   AES-128的密钥长度为16bytes（128bit / 8）
+#   AES-192 24bytes
+#   AES-256 32bytes*/
+#
+encrypt:
+  body:
+    aes-key: ZGIyYzlmZTA2OA==
+debug: false

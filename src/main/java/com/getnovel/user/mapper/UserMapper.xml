@@ -8,13 +8,13 @@
         <result column="password" property="password"/>
         <result column="phone" property="phone"/>
         <result column="email" property="email"/>
-        <result column="userType" property="user_type"/>
+        <result column="user_type" property="userType"/>
     </resultMap>
     <insert id="add" parameterType="com.getnovel.user.pojo.User">
             INSERT
             INTO
-            user(account,password,phone,email,userType)
-            VALUES (#{account},#{password},#{phone},#{email},#{user_type});
+            user(account,password,phone,email,user_type)
+            VALUES (#{account},#{password},#{phone},#{email},#{userType});
     </insert>
     <select id="selectByAccount" resultType="int">
              SELECT COUNT (*)

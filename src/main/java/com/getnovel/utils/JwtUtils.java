@@ -1,4 +1,4 @@
-package utils;
+package com.getnovel.utils;
 
 import com.getnovel.user.pojo.User;
 import io.jsonwebtoken.*;

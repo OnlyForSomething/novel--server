@@ -14,7 +14,7 @@ public class InterCeptorConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 注册登陆拦截
-        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/users/user/*/**","/users/user");// 需要拦截的路径
+        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/OAuth/user/*/**","/OAuth/user");// 需要拦截的路径
       //  registry.addInterceptor(new LoginInterceptor()).excludePathPatterns("/"); /*放过的路径*/
         WebMvcConfigurer.super.addInterceptors(registry);
     }
