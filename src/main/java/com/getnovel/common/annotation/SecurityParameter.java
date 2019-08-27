@@ -12,6 +12,9 @@ import java.lang.annotation.*;
 @Mapping
 /*用于描述其它类型的annotation应该被作为被标注的程序成员的公共API，因此可以被例如javadoc此类的工具文档化*/
 @Documented
+/**
+ * 对接口接收的数据进行AES解密的注解
+ * */
 public @interface SecurityParameter {
 
     /**

@@ -12,7 +12,7 @@ import org.springframework.http.HttpInputMessage;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdvice;
-import com.getnovel.utils.AesDecryptUtils;
+import com.getnovel.utils.AesDecryptUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,7 +26,7 @@ public class DecodeRequestBodyAdvice implements RequestBodyAdvice {
 
     private static final Logger logger = LoggerFactory.getLogger(DecodeRequestBodyAdvice.class);
     @Autowired
-    private AesDecryptUtils aesDecrypt;
+    private AesDecryptUtil aesDecrypt;
     @Override
     public boolean supports(MethodParameter methodParameter, Type type, Class<? extends HttpMessageConverter<?>> aClass) {
         return true;

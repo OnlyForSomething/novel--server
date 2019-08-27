@@ -1,11 +1,17 @@
 package com.getnovel.user.pojo;
 
+import com.getnovel.common.annotation.EncryptField;
+
+
 public class User {
 
     private Integer userId;
     private String account;
+    @EncryptField
     private String password;
+    @EncryptField
     private String phone;
+    @EncryptField
     private String email;
     private String userType;
 

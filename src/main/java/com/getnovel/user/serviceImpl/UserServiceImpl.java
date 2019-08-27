@@ -1,6 +1,7 @@
 package com.getnovel.user.serviceImpl;
 
 
+import com.getnovel.common.annotation.EncryptMethod;
 import com.getnovel.user.dao.UserDao;
 import com.getnovel.user.pojo.User;
 import com.getnovel.user.service.UserService;
@@ -13,6 +14,7 @@ public class UserServiceImpl  implements UserService{
     @Autowired
     private UserDao dao;
     @Override
+    @EncryptMethod
     public void add(User user) {
           dao.add(user);
     }

@@ -11,8 +11,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.security.Security;
 
 @Service
-public class AesDecryptUtils {
-//    @Value("${encrypt.body.aes-key}")
+public class AesDecryptUtil {
 //    private static String AES_KEY = "ZGIyYzlmZTA2OA==";
 //    private static final String AES_IV = "==AO2ATZmlzYyIGZ";
     @Autowired
