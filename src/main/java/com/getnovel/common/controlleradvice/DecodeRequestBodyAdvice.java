@@ -19,7 +19,7 @@ import java.io.InputStream;
 import java.lang.reflect.Type;
 
 /**
- *
+ *对接口请求的数据进行先解密再映射到接口的参数
  */
 @ControllerAdvice(basePackages = "com.getnovel.user.controller")
 public class DecodeRequestBodyAdvice implements RequestBodyAdvice {

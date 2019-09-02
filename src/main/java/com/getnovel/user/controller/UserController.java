@@ -2,12 +2,15 @@ package com.getnovel.user.controller;
 
 import com.getnovel.common.NovelProperties;
 import com.getnovel.common.annotation.SecurityParameter;
+import com.getnovel.common.validate.interfaceGroup.Oauth;
+import com.getnovel.common.validate.interfaceGroup.Sequence;
 import com.getnovel.user.pojo.User;
 import com.getnovel.user.serviceImpl.UserServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -55,8 +58,7 @@ public class UserController {
      */
     @SecurityParameter
     @RequestMapping(value = "/user",method = RequestMethod.POST)
-    public Object add(@RequestBody User user){
-        System.out.println(user);
+    public Object add(@Validated({Sequence.class}) @RequestBody User user){
         userService.add(user);
         Map<String,Object> result = new HashMap<>();
         result.put("status","ok");
@@ -74,30 +76,24 @@ public class UserController {
      */
     @SecurityParameter
     @RequestMapping(value = "/OAuth" ,method =RequestMethod.POST)
-    public Object login( @RequestBody  User user){
+    public Object login(@Validated({Oauth.class}) @RequestBody  User user){
         Map<String,Object> result = new HashMap<>();
         String token=null;
-        if(StringUtils.isEmpty(user.getAccount())){
-            result.put("accountErr","*请输入用户名");
-        }else if (StringUtils.isEmpty(user.getPassword())){
-            result.put("passwordErr","*请输入密码");
-        }else {
-            User u= userService.selectByAccountAndPassword(user);
-            if (null == u){
-                result.put("msg","账号不存在或者密码错误");
-            }else if (null != u){
-                token = userService.login(u);
-            }
-            if (token == null){
-                // token 生成失败 登陆失败
-                result.put("msg","服务器错误，请稍后重新登陆");
-            }else {
-                //登陆成功
-                result.put("status",true);
-                result.put("user_id",u.getUserId());
-                result.put("token",token);
-            }
-        }
+         User u= userService.selectByAccountAndPassword(user);
+         if (null == u){
+             result.put("msg","账号不存在或者密码错误");
+         }else if (null != u){
+             token = userService.login(u);
+         }
+         if (token == null){
+             // token 生成失败 登陆失败
+             result.put("msg","服务器错误，请稍后重新登陆");
+         }else {
+             //登陆成功
+             result.put("status",true);
+             result.put("user_id",u.getUserId());
+             result.put("token",token);
+          }
         return result;
     }
 
