@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.getnovel.novel.dao.NovelDao">
+    <resultMap id="novelMap" type="com.getnovel.novel.pojo.Novel" autoMapping="true">
+        <id column="novel_id" property="novelId" />
+        <result column="novel_name" property="novelName"/>
+        <result column="novel_type" property="novelType"/>
+        <result column="author" property="author"/>
+        <result column="cover" property="cover"/>
+        <result column="words" property="words"/>
+        <result column="total_chapters" property="totalChapters"/>
+        <result column="last_chapter" property="lastChapter"/>
+        <result column="novel_status" property="novelStatus"/>
+        <result column="collected_amount" property="collectedAmount"/>
+        <result column="stars_amount" property="starsAmount"/>
+    </resultMap>
+    <resultMap id="suggestMap" type="java.util.HashMap" >
+        <id column="novel_id" property="novelId" />
+        <result column="novel_name" property="novelName"/>
+        <result column="author" property="author"/>
+    </resultMap>
+   <!--小说新增：有则更新，无则新增(小说来源是爬取其它网站的资源防止重复入库同一作者的同一本小说)-->
+    <insert id="add" parameterType="com.getnovel.novel.pojo.Novel" useGeneratedKeys="true" keyProperty="id">
+        <selectKey keyProperty="num" order="BEFORE" resultType="int">
+            SELECT
+            COUNT(*)
+            AS num
+            FROM novel
+            WHERE novel_name=#{novelName}
+            AND author=#{author}
+        </selectKey>
+        <if test="num==0">
+            INSERT INTO novel(novel_name,novel_type,author,cover,words,total_chapters,last_chapter,novel_status)
+            VALUES (#{novelName},#{novelType},#{author},
+            #{cover},#{words},
+            #{totalChapters},#{lastChapter},#{novelStatus})
+        </if>
+        <if test="num>0">
+            UPDATE novel
+            SET
+            <!--<if test="novelType!=null and novelType!=''">-->
+                novel_type=#{novelType,jdbcType=VARCHAR},
+            <!--</if>-->
+            <!--<if test="cover!=null and  cover!=''">-->
+                cover=#{cover,jdbcType=VARCHAR},
+            <!--</if>-->
+            <!--<if test="words!=null and words!=''">-->
+                words=#{words,jdbcType=VARCHAR},
+            <!--</if>-->
+            <!--<if test="totalChapters!=null and totalChapters!=''">-->
+                total_chapters=#{totalChapters,jdbcType=INTEGER},
+            <!--</if>-->
+            <!--<if test="lastChapter!=null and lastChapter!=''">-->
+                last_chapter=#{lastChapter,jdbcType=VARCHAR},
+            <!--</if>-->
+                collected_amount=#{collectedAmount,jdbcType=INTEGER},
+                stars_amount=#{starsAmount,jdbcType=INTEGER}
+            WHERE
+            novel_name=#{novelName}
+            AND
+            author=#{author}
+        </if>
+    </insert>
+    <!--获取部分小说（分页）-->
+    <select id="queryNovelsBySql" parameterType="map" resultMap="novelMap">
+        SELECT *
+        FROM novel
+        limit #{currIndex}, #{pageSize}
+    </select>
+    <!--搜索建议（模拟热门搜索 排序）-->
+    <select id="getSearchSuggestions" resultMap="suggestMap">
+        SELECT novel_id,novel_name,author
+        FROM novel
+        ORDER BY stars_amount DESC
+        limit 0,60
+    </select>
+    <select id="getNovelsByType" resultType="com.getnovel.novel.pojo.Novel" resultMap="novelMap">
+        SELECT *
+        FROM novel
+        WHERE novel_type LIKE "%"#{novelType}"%"
+        --         limit #,#
+    </select>
+    <select id="getNovelById" resultType="com.getnovel.novel.pojo.Novel" resultMap="novelMap">
+        SELECT *
+        FROM novel
+        WHERE novel_id = #{novelId}
+    </select>
+</mapper>
